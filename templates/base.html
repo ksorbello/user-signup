@@ -6,7 +6,7 @@
         </head>
         <main>
             <h1>Signup</h1>
-            <form action= "/" method ="GET">
+            <form action= "/home">
                 <table>
                     <tbody>
                         <tr>
@@ -14,7 +14,8 @@
                                 <label>Username: </label>
                             </td>
                             <td>
-                                <input type= "text" name ="username"/>
+                                <input type= "text" name ="username" value ="{{temp_username}}" />
+                                <span>{{username_error}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -22,7 +23,8 @@
                                 <label>Password:</label>
                             </td>
                             <td>
-                                <input type="text" name="password"/>
+                                <input type="password" name="password"/>
+                                <span>{{password_error}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -30,7 +32,8 @@
                                 <label>Verify Password:</label>
                             </td>
                             <td>
-                                <input type= "text" name ="password2"/>
+                                <input type= "password" name ="password2"/>
+                                <span>{{password_error}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -38,8 +41,11 @@
                                 <label>Email (optional):</label>
                             </td>
                             <td>
-                                <input type= "text" name ="email"/>
-                                </td>
+                                <input type= "text" name ="email" value="{{email}}"/>
+                                {% if email_error %}
+                                <span>{{email_error}}</span>
+                                {% endif %}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
