@@ -54,8 +54,7 @@ def sign_up():
         password_error_flag = False
     
     
-    #if email == "None":
-        #email_error = email_error
+
     print("email"+ email, file=sys.stderr) 
     
     if re.match(r"[^@]+@[^@]+\.[^@]+", email):
