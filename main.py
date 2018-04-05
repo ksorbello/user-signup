@@ -1,19 +1,20 @@
 from flask import Flask, request, render_template, redirect 
 import os
 import re
+import sys
 
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-@app.route("/home", methods = ["GET"])
+@app.route("/home", methods = ["get"])
 def sign_up():
     
 
     username = str(request.args.get("username"))
     space = " "
     username_error = ""
-    temp_username = "  "
+    #username = "  "
 
     
     password_one = str(request.args.get('password'))
@@ -22,20 +23,25 @@ def sign_up():
     
     email = str(request.args.get('email'))
     email_error = ""
-    no_email = ''
+    email_error_flag = True
+    username_error_flag = True
+    password_error_flag = True
+    
 
-    if not username:
+    if username == "None":
+        username = ""
+    elif not username:
         username_error = " username field may not be left blank."
-        temp_username = temp_username
+        username = username
     elif len(username) > 20 or len(username) < 3:
         username_error = " username must be between 3 and 20 characters."
-        temp_username = temp_username
+        username = username
     elif space in username:
         username_error = "username may not contain any spaces."
-        temp_username = temp_username
+        username = username
     else:
-        username_error = username_error
-        temp_username = username
+        username_error_flag = False
+
     
     
     if len(password_one) > 26 or len(password_one) < 3:
@@ -45,26 +51,30 @@ def sign_up():
     elif password_one != password_two:
         password_error = " passwords do not match."
     else:
-        password_error = password_error
+        password_error_flag = False
     
     
-    if email:
-        
-        if re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            email_error = email_error
-            email = email
-        else:
-            email_error = "please enter a valid email address."
-            email = ""
+    #if email == "None":
+        #email_error = email_error
+    print("email"+ email, file=sys.stderr) 
     
-    if not email:
-        email_error = email_error
-        
-    if not email_error and not username_error and not password_error:
+    if re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        email_error_flag = False
+    elif email == "":
+        email_error = ""
+        email_error_flag = False
+    elif email == "None":
+        email_error_flag = False
+        email = ""
+    else:
+        email_error = "please enter a valid email."
+    
+    print("email"+ email, file=sys.stderr)   
+    if not email_error_flag and not username_error_flag and not password_error_flag:
         return redirect("/welcome?username=" + username)
 
     return render_template("base.html", username_error=username_error, password_error=password_error,
-    email_error=email_error,  email = email, temp_username=temp_username )
+    email_error=email_error,  email = email, username=username )
 
 @app.route("/welcome")
 def welcome_page():
