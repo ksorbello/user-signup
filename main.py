@@ -38,13 +38,13 @@ def sign_up():
         
         if not username:
             username_error = " username field may not be left blank."
-            username = username
+            username = ""
         elif len(username) > 20 or len(username) < 3:
             username_error = " username must be between 3 and 20 characters."
-            username = username
+            username = ""
         elif space in username:
             username_error = "username may not contain any spaces."
-            username = username
+            username = ""
         else:
             username_error_flag = False
 
@@ -66,12 +66,14 @@ def sign_up():
         
         if re.match(r"[^@]+@[^@]+\.[^@]+", email):
             email_error_flag = False
+            
         elif email == "":
             email_error = ""
             email_error_flag = False
 
         else:
             email_error = "please enter a valid email."
+            email = ""
         
            
         if not email_error_flag and not username_error_flag and not password_error_flag:
